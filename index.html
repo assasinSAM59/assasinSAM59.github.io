@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Profile | Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; }
+        .game-card { transition: transform 0.3s ease; }
+        .game-card:hover { transform: translateY(-5px); }
+        .status-done { color: #4ade80; } /* Green */
+        .status-playing { color: #60a5fa; } /* Blue */
+        .status-soon { color: #fbbf24; } /* Yellow */
+        .status-dropped { color: #f87171; } /* Red */
+    </style>
+</head>
+<body class="font-sans">
+
+    <header class="py-10 text-center border-b border-slate-800">
+        <h1 class="text-4xl font-bold tracking-tight text-blue-500">GAMER_LOG</h1>
+        <p class="mt-2 text-slate-400">Computer Tech by day, Tarnished by night.</p>
+        
+        <div class="mt-6 flex justify-center gap-6">
+            <a href="#" class="hover:text-blue-400">Steam</a>
+            <a href="#" class="hover:text-blue-400">GitHub</a>
+            <a href="#" class="hover:text-blue-400">Twitter/X</a>
+            <a href="#" class="hover:text-blue-400">Discord</a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+            <div class="bg-slate-800 p-4 rounded-lg text-center border border-slate-700">
+                <span class="block text-2xl font-bold status-done">12</span>
+                <span class="text-xs uppercase text-slate-500">Completed</span>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-lg text-center border border-slate-700">
+                <span class="block text-2xl font-bold status-playing">2</span>
+                <span class="text-xs uppercase text-slate-500">Ongoing</span>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-lg text-center border border-slate-700">
+                <span class="block text-2xl font-bold status-soon">5</span>
+                <span class="text-xs uppercase text-slate-500">Wishlist</span>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-lg text-center border border-slate-700">
+                <span class="block text-2xl font-bold status-dropped">3</span>
+                <span class="text-xs uppercase text-slate-500">Dropped</span>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="text-2xl font-semibold mb-6">Library Archive</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <div class="game-card bg-slate-800 rounded-xl overflow-hidden border border-slate-700">
+                    <div class="h-40 bg-slate-700 flex items-center justify-center text-slate-500">No Cover Art</div>
+                    <div class="p-4">
+                        <span class="text-xs font-bold status-done uppercase">Completed</span>
+                        <h3 class="text-lg font-bold">Dark Souls III</h3>
+                        <p class="text-sm text-slate-400">Platinum achievement unlocked.</p>
+                    </div>
+                </div>
+
+                <div class="game-card bg-slate-800 rounded-xl overflow-hidden border border-slate-700">
+                    <div class="h-40 bg-slate-700 flex items-center justify-center text-slate-500">No Cover Art</div>
+                    <div class="p-4">
+                        <span class="text-xs font-bold status-playing uppercase">Currently Playing</span>
+                        <h3 class="text-lg font-bold">Elden Ring</h3>
+                        <p class="text-sm text-slate-400">Exploring the Shadow of the Erdtree.</p>
+                    </div>
+                </div>
+
+                <div class="game-card bg-slate-800 rounded-xl overflow-hidden border border-slate-700">
+                    <div class="h-40 bg-slate-700 flex items-center justify-center text-slate-500">No Cover Art</div>
+                    <div class="p-4">
+                        <span class="text-xs font-bold status-dropped uppercase">Left for Now</span>
+                        <h3 class="text-lg font-bold">The Long Drive</h3>
+                        <p class="text-sm text-slate-400">Glitchy physics finally got to me.</p>
+                    </div>
+                </div>
+
+                <div class="game-card bg-slate-800 rounded-xl overflow-hidden border border-slate-700">
+                    <div class="h-40 bg-slate-700 flex items-center justify-center text-slate-500">No Cover Art</div>
+                    <div class="p-4">
+                        <span class="text-xs font-bold status-soon uppercase">Up Next</span>
+                        <h3 class="text-lg font-bold">Black Ops 6</h3>
+                        <p class="text-sm text-slate-400">Waiting for the weekend grind.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-20 py-10 text-center border-t border-slate-800 text-slate-600 text-sm">
+        &copy; 2026 Gaming Portfolio. Built with HTML/Tailwind.
+    </footer>
+
+</body>
+</html>
