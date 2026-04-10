@@ -6,418 +6,343 @@
 <title>assasinSAM — Game Showcase</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --red:       #e50000;
-    --red-bright:#ff2222;
-    --red-dim:   #6a0000;
-    --red-glow:  rgba(229,0,0,0.30);
-    --gold:      #c9a84c;
-    --cyan:      #00e5ff;
-    --green:     #39ff14;
-    --purple:    #b040ff;
-    --bg:        #030303;
-    --bg2:       #090909;
-    --bg3:       #0f0f0f;
-    --border:    #1e0000;
-    --text:      #e8e8e8;
-    --text-dim:  #777;
-  }
-  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --red:#e50000; --red-bright:#ff2222; --red-dim:#6a0000; --red-glow:rgba(229,0,0,.30);
+  --gold:#c9a84c; --cyan:#00e5ff; --green:#39ff14; --purple:#b040ff;
+  --bg:#030303; --bg2:#090909; --bg3:#0f0f0f; --border:#1e0000;
+  --text:#e8e8e8; --text-dim:#777;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-weight:500;overflow-x:hidden;cursor:crosshair;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;border:3px solid var(--red);box-shadow:inset 0 0 50px rgba(229,0,0,.10),0 0 70px rgba(229,0,0,.15);pointer-events:none;z-index:9998;}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 500;
-    overflow-x: hidden;
-    cursor: crosshair;
-  }
+header{position:relative;text-align:center;padding:56px 20px 36px;background:linear-gradient(180deg,#0c0000 0%,var(--bg) 100%);border-bottom:2px solid var(--red);overflow:hidden;}
+header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 45% at 50% 0%,rgba(229,0,0,.22) 0%,transparent 70%);}
+.co{position:absolute;width:52px;height:52px;border-color:var(--red);border-style:solid;opacity:.6;}
+.co.tl{top:10px;left:10px;border-width:2px 0 0 2px;}
+.co.tr{top:10px;right:10px;border-width:2px 2px 0 0;}
+.co.bl{bottom:10px;left:10px;border-width:0 0 2px 2px;}
+.co.br{bottom:10px;right:10px;border-width:0 2px 2px 0;}
 
-  /* scanlines */
-  body::before {
-    content:'';
-    position:fixed; inset:0;
-    background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.13) 2px,rgba(0,0,0,.13) 4px);
-    pointer-events:none; z-index:9999;
-  }
-  /* outer red border frame */
-  body::after {
-    content:'';
-    position:fixed; inset:0;
-    border:3px solid var(--red);
-    box-shadow:inset 0 0 50px rgba(229,0,0,.10), 0 0 70px rgba(229,0,0,.15);
-    pointer-events:none; z-index:9998;
-  }
+.site-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,12vw,136px);letter-spacing:8px;line-height:1;color:#fff;text-shadow:0 0 8px var(--red),0 0 28px var(--red),0 0 55px var(--red-glow),4px 4px 0 var(--red-dim);position:relative;animation:flicker 7s infinite;}
+@keyframes flicker{0%,93%,95%,100%{opacity:1}94%{opacity:.8;text-shadow:0 0 4px var(--red);}}
+.site-name em{color:var(--red-bright);font-style:normal;}
+.tagline{font-family:'Share Tech Mono',monospace;font-size:clamp(11px,2.2vw,15px);color:var(--gold);letter-spacing:5px;text-transform:uppercase;margin-top:8px;position:relative;}
+.tagline::before,.tagline::after{content:'//';color:var(--red-dim);margin:0 10px;}
 
-  /* HEADER */
-  header {
-    position:relative;
-    text-align:center;
-    padding:56px 20px 36px;
-    background:linear-gradient(180deg,#0c0000 0%,var(--bg) 100%);
-    border-bottom:2px solid var(--red);
-    overflow:hidden;
-  }
-  header::before {
-    content:'';
-    position:absolute; inset:0;
-    background:radial-gradient(ellipse 65% 45% at 50% 0%,rgba(229,0,0,.22) 0%,transparent 70%);
-  }
-  .co { position:absolute; width:52px; height:52px; border-color:var(--red); border-style:solid; opacity:.6; }
-  .co.tl{top:10px;left:10px; border-width:2px 0 0 2px;}
-  .co.tr{top:10px;right:10px;border-width:2px 2px 0 0;}
-  .co.bl{bottom:10px;left:10px;border-width:0 0 2px 2px;}
-  .co.br{bottom:10px;right:10px;border-width:0 2px 2px 0;}
+.stat-bar{display:flex;justify-content:center;gap:32px;margin-top:28px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--red-bright);text-shadow:0 0 10px var(--red-glow);line-height:1;}
+.stat-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2.5px;text-transform:uppercase;}
+.stat-div{width:1px;background:linear-gradient(180deg,transparent,var(--red),transparent);align-self:stretch;}
 
-  .site-name {
-    font-family:'Bebas Neue',sans-serif;
-    font-size:clamp(60px,12vw,136px);
-    letter-spacing:8px; line-height:1;
-    color:#fff;
-    text-shadow:0 0 8px var(--red),0 0 28px var(--red),0 0 55px var(--red-glow),4px 4px 0 var(--red-dim);
-    position:relative;
-    animation:flicker 7s infinite;
-  }
-  @keyframes flicker{0%,93%,95%,100%{opacity:1}94%{opacity:.8;text-shadow:0 0 4px var(--red);}}
-  .site-name em { color:var(--red-bright); font-style:normal; }
+.glitch-line{height:2px;background:linear-gradient(90deg,transparent,var(--red),var(--cyan),var(--red),transparent);background-size:200% 100%;animation:gslide 4s linear infinite;}
+@keyframes gslide{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-  .tagline {
-    font-family:'Share Tech Mono',monospace;
-    font-size:clamp(11px,2.2vw,15px);
-    color:var(--gold);
-    letter-spacing:5px;
-    text-transform:uppercase;
-    margin-top:8px; position:relative;
-  }
-  .tagline::before,.tagline::after{content:'//';color:var(--red-dim);margin:0 10px;}
+nav{display:flex;justify-content:center;border-bottom:2px solid var(--red);background:var(--bg2);flex-wrap:wrap;position:sticky;top:0;z-index:100;}
+nav button{background:transparent;border:none;color:var(--text-dim);font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:3px;padding:15px 28px;cursor:pointer;transition:all .2s;border-right:1px solid #180000;position:relative;}
+nav button::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red-bright);transform:scaleX(0);transition:transform .2s;}
+nav button:hover,nav button.active{color:#fff;background:rgba(229,0,0,.07);}
+nav button:hover::after,nav button.active::after{transform:scaleX(1);}
+nav button.active{color:var(--red-bright);text-shadow:0 0 10px var(--red-glow);}
+.ndot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:7px;vertical-align:middle;}
 
-  .stat-bar {
-    display:flex; justify-content:center; gap:32px; margin-top:28px; flex-wrap:wrap;
-  }
-  .stat { text-align:center; }
-  .stat-num {
-    font-family:'Bebas Neue',sans-serif; font-size:40px;
-    color:var(--red-bright); text-shadow:0 0 10px var(--red-glow); line-height:1;
-  }
-  .stat-label {
-    font-family:'Share Tech Mono',monospace; font-size:9px;
-    color:var(--text-dim); letter-spacing:2.5px; text-transform:uppercase;
-  }
-  .stat-div { width:1px; background:linear-gradient(180deg,transparent,var(--red),transparent); align-self:stretch; }
+.section{display:none;padding:44px 20px;max-width:1700px;margin:0 auto;}
+.section.active{display:block;}
 
-  /* GLITCH LINE */
-  .glitch-line {
-    height:2px;
-    background:linear-gradient(90deg,transparent,var(--red),var(--cyan),var(--red),transparent);
-    background-size:200% 100%;
-    animation:gslide 4s linear infinite;
-  }
-  @keyframes gslide{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.sec-head{display:flex;align-items:center;gap:16px;margin-bottom:36px;border-left:4px solid var(--red);padding-left:18px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,5vw,50px);letter-spacing:4px;line-height:1;}
+.sec-count{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:2px;align-self:flex-end;padding-bottom:5px;}
 
-  /* NAV */
-  nav {
-    display:flex; justify-content:center; gap:0;
-    border-bottom:2px solid var(--red);
-    background:var(--bg2);
-    flex-wrap:wrap;
-    position:sticky; top:0; z-index:100;
-  }
-  nav button {
-    background:transparent; border:none;
-    color:var(--text-dim);
-    font-family:'Bebas Neue',sans-serif;
-    font-size:17px; letter-spacing:3px;
-    padding:15px 28px;
-    cursor:pointer; transition:all .2s;
-    border-right:1px solid #180000;
-    position:relative;
-  }
-  nav button::after {
-    content:''; position:absolute; bottom:0; left:0; right:0;
-    height:2px; background:var(--red-bright);
-    transform:scaleX(0); transition:transform .2s;
-  }
-  nav button:hover,nav button.active { color:#fff; background:rgba(229,0,0,.07); }
-  nav button:hover::after,nav button.active::after { transform:scaleX(1); }
-  nav button.active { color:var(--red-bright); text-shadow:0 0 10px var(--red-glow); }
-  .ndot { display:inline-block; width:6px; height:6px; border-radius:50%; margin-left:7px; vertical-align:middle; }
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:28px;padding:14px 18px;background:var(--bg2);border-left:2px solid var(--red-dim);}
+.leg-item{display:flex;align-items:center;gap:7px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1px;}
+.leg-dot{width:9px;height:9px;border-radius:1px;flex-shrink:0;}
 
-  /* SECTIONS */
-  .section { display:none; padding:44px 20px; max-width:1700px; margin:0 auto; }
-  .section.active { display:block; }
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:16px;}
 
-  .sec-head {
-    display:flex; align-items:center; gap:16px;
-    margin-bottom:36px;
-    border-left:4px solid var(--red);
-    padding-left:18px;
-  }
-  .sec-title {
-    font-family:'Bebas Neue',sans-serif;
-    font-size:clamp(32px,5vw,50px); letter-spacing:4px; line-height:1;
-  }
-  .sec-count {
-    font-family:'Share Tech Mono',monospace;
-    font-size:11px; color:var(--text-dim); letter-spacing:2px;
-    align-self:flex-end; padding-bottom:5px;
-  }
+.game-card{position:relative;background:var(--bg3);border:1px solid var(--border);transition:transform .22s ease,box-shadow .22s ease;overflow:hidden;}
+.game-card:hover{transform:translateY(-5px);box-shadow:0 10px 32px rgba(229,0,0,.28),0 0 0 1px var(--red);z-index:10;}
+.game-card a.card-link{position:absolute;inset:0;z-index:5;}
 
-  /* LEGEND */
-  .legend {
-    display:flex; gap:20px; flex-wrap:wrap;
-    margin-bottom:28px;
-    padding:14px 18px;
-    background:var(--bg2);
-    border-left:2px solid var(--red-dim);
-  }
-  .leg-item {
-    display:flex; align-items:center; gap:7px;
-    font-family:'Share Tech Mono',monospace;
-    font-size:10px; color:var(--text-dim); letter-spacing:1px;
-  }
-  .leg-dot { width:9px; height:9px; border-radius:1px; flex-shrink:0; }
+.game-img-wrap{position:relative;width:100%;aspect-ratio:460/215;overflow:hidden;background:#0a0000;}
+.game-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .32s ease,filter .22s ease;filter:brightness(.88) saturate(.8);}
+.game-card:hover .game-img-wrap img{transform:scale(1.07);filter:brightness(1) saturate(1);}
+.img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.85) 100%);z-index:1;}
 
-  /* GAME GRID */
-  .game-grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
-    gap:16px;
-  }
+.game-img-wrap .placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#100000,#1a0000);border-bottom:1px solid var(--red-dim);}
+.game-img-wrap .placeholder span{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:1.5px;color:var(--red-dim);text-align:center;padding:8px;line-height:1.35;}
 
-  /* GAME CARD */
-  .game-card {
-    position:relative;
-    background:var(--bg3);
-    border:1px solid var(--border);
-    transition:transform .22s ease, box-shadow .22s ease;
-    overflow:hidden;
-  }
-  .game-card:hover {
-    transform:translateY(-5px);
-    box-shadow:0 10px 32px rgba(229,0,0,.28), 0 0 0 1px var(--red);
-    z-index:10;
-  }
-  .game-card a.card-link {
-    position:absolute; inset:0; z-index:5;
-  }
+.badge{position:absolute;top:7px;right:7px;z-index:3;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;padding:3px 7px;text-transform:uppercase;font-weight:700;}
+.b-playing{background:var(--cyan);color:#000;}
+.b-done{background:var(--green);color:#000;}
+.b-unfinished{background:var(--gold);color:#000;}
+.b-pending{background:#222;color:#666;border:1px solid #333;}
 
-  /* IMAGE WRAPPER — Steam header.jpg is 460x215 */
-  .game-img-wrap {
-    position:relative;
-    width:100%;
-    aspect-ratio:460/215;
-    overflow:hidden;
-    background:#0a0000;
-  }
-  .game-img-wrap img {
-    width:100%; height:100%;
-    object-fit:cover; display:block;
-    transition:transform .32s ease, filter .22s ease;
-    filter:brightness(.88) saturate(.8);
-  }
-  .game-card:hover .game-img-wrap img {
-    transform:scale(1.07);
-    filter:brightness(1) saturate(1);
-  }
-  .img-overlay {
-    position:absolute; inset:0;
-    background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.85) 100%);
-    z-index:1;
-  }
+.game-info{padding:10px 11px 12px;}
+.game-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;color:#fff;line-height:1.3;}
+.reason-tag{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;margin-top:5px;border-radius:2px;}
+.rt-technical{background:rgba(229,0,0,.15);color:var(--red-bright);border:1px solid var(--red-dim);}
+.rt-interest{background:rgba(80,80,80,.15);color:#777;border:1px solid #2a2a2a;}
+.rt-hard{background:rgba(176,64,255,.12);color:var(--purple);border:1px solid rgba(176,64,255,.4);}
+.rt-planned{background:rgba(0,229,255,.08);color:var(--cyan);border:1px solid rgba(0,229,255,.3);}
 
-  /* fallback placeholder */
-  .game-img-wrap .placeholder {
-    width:100%; height:100%;
-    display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg,#100000,#1a0000);
-    border-bottom:1px solid var(--red-dim);
-  }
-  .game-img-wrap .placeholder span {
-    font-family:'Bebas Neue',sans-serif;
-    font-size:12px; letter-spacing:1.5px;
-    color:var(--red-dim); text-align:center;
-    padding:8px; line-height:1.35;
-  }
+.nolink-icon{position:absolute;bottom:8px;right:8px;z-index:4;font-family:'Share Tech Mono',monospace;font-size:9px;color:#333;opacity:0;transition:opacity .2s;pointer-events:none;}
+.game-card:hover .nolink-icon{opacity:1;}
 
-  /* STATUS BADGE */
-  .badge {
-    position:absolute; top:7px; right:7px; z-index:3;
-    font-family:'Share Tech Mono',monospace;
-    font-size:8px; letter-spacing:1px;
-    padding:3px 7px;
-    text-transform:uppercase; font-weight:700;
-  }
-  .b-playing   { background:var(--cyan); color:#000; }
-  .b-done      { background:var(--green); color:#000; }
-  .b-unfinished{ background:var(--gold); color:#000; }
-  .b-pending   { background:#222; color:#666; border:1px solid #333; }
+footer{text-align:center;padding:28px 20px;border-top:1px solid #160000;margin-top:40px;}
+footer p{font-family:'Share Tech Mono',monospace;font-size:10px;color:#2a2a2a;letter-spacing:3px;text-transform:uppercase;line-height:2;}
+footer p span{color:var(--red-dim);}
 
-  /* CARD INFO */
-  .game-info { padding:10px 11px 12px; }
-  .game-title {
-    font-family:'Rajdhani',sans-serif; font-weight:700;
-    font-size:13px; color:#fff; line-height:1.3;
-  }
-  .reason-tag {
-    display:inline-block;
-    font-family:'Share Tech Mono',monospace;
-    font-size:9px; padding:2px 6px; margin-top:5px; border-radius:2px;
-  }
-  .rt-technical { background:rgba(229,0,0,.15); color:var(--red-bright); border:1px solid var(--red-dim); }
-  .rt-interest  { background:rgba(80,80,80,.15); color:#777; border:1px solid #2a2a2a; }
-  .rt-hard      { background:rgba(176,64,255,.12); color:var(--purple); border:1px solid rgba(176,64,255,.4); }
-  .rt-planned   { background:rgba(0,229,255,.08); color:var(--cyan); border:1px solid rgba(0,229,255,.3); }
-
-  .nolink-icon {
-    position:absolute; bottom:8px; right:8px; z-index:4;
-    font-size:11px; color:#333; opacity:0; transition:opacity .2s;
-    pointer-events:none;
-  }
-  .game-card:hover .nolink-icon { opacity:1; }
-
-  /* FOOTER */
-  footer {
-    text-align:center;
-    padding:28px 20px;
-    border-top:1px solid #160000;
-    margin-top:40px;
-  }
-  footer p {
-    font-family:'Share Tech Mono',monospace;
-    font-size:10px; color:#2a2a2a;
-    letter-spacing:3px; text-transform:uppercase;
-    line-height:2;
-  }
-  footer p span { color:var(--red-dim); }
-
-  ::-webkit-scrollbar{width:5px;}
-  ::-webkit-scrollbar-track{background:var(--bg);}
-  ::-webkit-scrollbar-thumb{background:var(--red-dim);}
-  ::-webkit-scrollbar-thumb:hover{background:var(--red);}
-
-  @media(max-width:600px){
-    .game-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
-    nav button{padding:12px 14px;font-size:14px;}
-  }
+::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--red-dim);} ::-webkit-scrollbar-thumb:hover{background:var(--red);}
+@media(max-width:600px){.game-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}nav button{padding:12px 14px;font-size:14px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="co tl"></div><div class="co tr"></div>
-  <div class="co bl"></div><div class="co br"></div>
+  <div class="co tl"></div><div class="co tr"></div><div class="co bl"></div><div class="co br"></div>
   <div class="site-name">assasin<em>SAM</em></div>
   <div class="tagline">Co-Founder of SINETIX</div>
   <div class="stat-bar">
-    <div class="stat"><div class="stat-num" id="s-playing">5</div><div class="stat-label">Playing</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Playing</div></div>
     <div class="stat-div"></div>
-    <div class="stat"><div class="stat-num" id="s-done">23</div><div class="stat-label">Completed</div></div>
+    <div class="stat"><div class="stat-num">25</div><div class="stat-label">Completed</div></div>
     <div class="stat-div"></div>
-    <div class="stat"><div class="stat-num" id="s-unfinished">11</div><div class="stat-label">Unfinished</div></div>
+    <div class="stat"><div class="stat-num">11</div><div class="stat-label">Unfinished</div></div>
     <div class="stat-div"></div>
-    <div class="stat"><div class="stat-num" id="s-pending">51</div><div class="stat-label">Pending</div></div>
+    <div class="stat"><div class="stat-num">51</div><div class="stat-label">Pending</div></div>
   </div>
 </header>
 
 <div class="glitch-line"></div>
 
 <nav>
-  <button class="active" data-tab="playing"     onclick="showTab(this)">&#127918; Playing<span class="ndot" style="background:var(--cyan)"></span></button>
-  <button               data-tab="done"         onclick="showTab(this)">&#9989; Completed<span class="ndot" style="background:var(--green)"></span></button>
-  <button               data-tab="unfinished"   onclick="showTab(this)">&#9888;&#65039; Unfinished<span class="ndot" style="background:var(--gold)"></span></button>
-  <button               data-tab="pending"      onclick="showTab(this)">&#128377;&#65039; Pending<span class="ndot" style="background:#444"></span></button>
+  <button class="active" onclick="showTab('playing',this)">&#127918; Playing<span class="ndot" style="background:var(--cyan)"></span></button>
+  <button onclick="showTab('done',this)">&#9989; Completed<span class="ndot" style="background:var(--green)"></span></button>
+  <button onclick="showTab('unfinished',this)">&#9888; Unfinished<span class="ndot" style="background:var(--gold)"></span></button>
+  <button onclick="showTab('pending',this)">&#128377; Pending<span class="ndot" style="background:#444"></span></button>
 </nav>
 
-<div id="playing"    class="section active"></div>
-<div id="done"       class="section"></div>
-<div id="unfinished" class="section"></div>
-<div id="pending"    class="section"></div>
+<!-- CURRENTLY PLAYING -->
+<div id="playing" class="section active">
+  <div class="sec-head">
+    <div class="sec-title" style="color:var(--cyan);text-shadow:0 0 14px rgba(0,229,255,.35)">Currently Playing</div>
+    <div class="sec-count">5 GAMES</div>
+  </div>
+  <div class="game-grid">
+    
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/7940/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/7940/header.jpg" alt="Call of Duty 4: Modern Warfare" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Call of Duty 4: Modern Warfare</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-playing">PLAYING</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Call of Duty 4: Modern Warfare</div>
+          
+        </div>
+        
+      </div>
 
-<footer>
-  <p>assasinSAM &mdash; <span>Co-Founder of SINETIX</span></p>
-  <p>Click any cover to visit the game's purchase page</p>
-</footer>
+      <div class="game-card">
+        
+        <div class="game-img-wrap">
+          <div class="placeholder"><span>Deadpool</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-playing">PLAYING</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Deadpool</div>
+          
+        </div>
+        <span class="nolink-icon">N/A</span>
+      </div>
 
-<script>
-// Steam Cloudflare CDN — publicly served, no hotlink block, works on GitHub Pages
-const S = id => `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/header.jpg`;
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/220240/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/220240/header.jpg" alt="Far Cry 3" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Far Cry 3</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-playing">PLAYING</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Far Cry 3</div>
+          
+        </div>
+        
+      </div>
 
-const GAMES = {
-  playing: [
-    { title:"Call of Duty 4: Modern Warfare", img:S(7940),    link:"https://store.steampowered.com/app/7940/" },
-    { title:"Deadpool",                        img:null,       link:null },
-    { title:"Far Cry 3",                       img:S(220240),  link:"https://store.steampowered.com/app/220240/" },
-    { title:"Jump Force",                      img:S(921790),  link:"https://store.steampowered.com/app/921790/" },
-    { title:"Resident Evil 7: Biohazard",      img:S(418370),  link:"https://store.steampowered.com/app/418370/" },
-  ],
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/921790/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/921790/header.jpg" alt="Jump Force" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Jump Force</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-playing">PLAYING</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Jump Force</div>
+          
+        </div>
+        
+      </div>
 
-  done: [
-    { title:"Assassin's Creed",                  img:S(15900),   link:"https://store.steampowered.com/app/15900/" },
-    { title:"Batman: Arkham Origins",            img:S(209000),  link:"https://store.steampowered.com/app/209000/" },
-    { title:"Call of Duty 1",                    img:S(2620),    link:"https://store.steampowered.com/app/2620/" },
-    { title:"The School: White Day",             img:S(451250),  link:"https://store.steampowered.com/app/451250/" },
-    { title:"The Amazing Spider-Man (Mobile)",   img:null,       link:null },
-    { title:"The Amazing Spider-Man 2 (Mobile)", img:null,       link:null },
-    { title:"The Dark Knight Rises (Mobile)",    img:null,       link:null },
-    { title:"NFS: Most Wanted (2005)",           img:S(1551450), link:"https://store.steampowered.com/app/1551450/" },
-    { title:"NFS: Most Wanted (2012)",           img:S(214230),  link:"https://store.steampowered.com/app/214230/" },
-    { title:"Grand Theft Auto IV",               img:S(12210),   link:"https://store.steampowered.com/app/12210/" },
-    { title:"Grand Theft Auto V",                img:S(271590),  link:"https://store.steampowered.com/app/271590/" },
-    { title:"Far Cry",                           img:S(13520),   link:"https://store.steampowered.com/app/13520/" },
-    { title:"Forgotten Memories",                img:S(431180),  link:"https://store.steampowered.com/app/431180/" },
-    { title:"Far Cry 2",                         img:S(19900),   link:"https://store.steampowered.com/app/19900/" },
-    { title:"Reporter",                          img:S(896680),  link:"https://store.steampowered.com/app/896680/" },
-    { title:"Portal",                            img:S(400),     link:"https://store.steampowered.com/app/400/" },
-    { title:"Reporter 2",                        img:S(1101640), link:"https://store.steampowered.com/app/1101640/" },
-    { title:"Grand Theft Auto: San Andreas",     img:S(12120),   link:"https://store.steampowered.com/app/12120/" },
-    { title:"Grand Theft Auto: Vice City",       img:S(12110),   link:"https://store.steampowered.com/app/12110/" },
-    { title:"Metal Gear Solid V: The Phantom Pain", img:S(287700), link:"https://store.steampowered.com/app/287700/" },
-    { title:"Metal Gear Solid: Peace Walker",    img:S(1372550), link:"https://store.steampowered.com/app/1372550/" },
-    { title:"Sleeping Dogs: Definitive Edition", img:S(202170),  link:"https://store.steampowered.com/app/202170/" },
-    { title:"Total Overdose",                    img:null,       link:null },
-  ],
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/418370/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/418370/header.jpg" alt="Resident Evil 7: Biohazard" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Resident Evil 7: Biohazard</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-playing">PLAYING</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Resident Evil 7: Biohazard</div>
+          
+        </div>
+        
+      </div>
+  </div>
+</div>
 
-  unfinished: [
-    { title:"Assassin's Creed II",   img:S(33230),   link:"https://store.steampowered.com/app/33230/",  reason:"technical", reasonText:"PC Broke" },
-    { title:"Burnout Legends",       img:null,       link:null,                                          reason:"interest",  reasonText:"Got Bored" },
-    { title:"Batman: Arkham Asylum", img:S(35140),   link:"https://store.steampowered.com/app/35140/",  reason:"technical", reasonText:"PC Broke" },
-    { title:"Half-Life",             img:S(70),      link:"https://store.steampowered.com/app/70/",     reason:"interest",  reasonText:"Lost Interest" },
-    { title:"Hollow Knight",         img:S(367520),  link:"https://store.steampowered.com/app/367520/", reason:"hard",      reasonText:"Too Hard" },
-    { title:"Hollow Knight: Silksong",img:S(1030300),link:"https://store.steampowered.com/app/1030300/",reason:"hard",     reasonText:"Too Hard" },
-    { title:"Life Is Strange",       img:S(319630),  link:"https://store.steampowered.com/app/319630/", reason:"planned",   reasonText:"Planned Return" },
-    { title:"Little Nightmares",     img:S(424840),  link:"https://store.steampowered.com/app/424840/", reason:"interest",  reasonText:"Lost Interest" },
-    { title:"Mortal Kombat XL",      img:S(307780),  link:"https://store.steampowered.com/app/307780/", reason:"interest",  reasonText:"Lost Interest" },
-    { title:"Prototype",             img:S(212070),  link:"https://store.steampowered.com/app/212070/", reason:"interest",  reasonText:"Lost Interest" },
-    { title:"The Wolf Among Us",     img:S(250320),  link:"https://store.steampowered.com/app/250320/", reason:"technical", reasonText:"PC Broke" },
-  ],
+<!-- COMPLETED -->
+<div id="done" class="section">
+  <div class="sec-head">
+    <div class="sec-title" style="color:var(--green);text-shadow:0 0 14px rgba(57,255,20,.28)">Completed</div>
+    <div class="sec-count">25 GAMES</div>
+  </div>
+  <div class="game-grid">
+    
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/15900/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/15900/header.jpg" alt="Assassin&#39;s Creed" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Assassin&#39;s Creed</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Assassin&#39;s Creed</div>
+          
+        </div>
+        
+      </div>
 
-  pending: [
-    { title:"Alan Wake",                          img:S(108710),  link:"https://store.steampowered.com/app/108710/" },
-    { title:"Heavy Rain",                         img:S(960910),  link:"https://store.steampowered.com/app/960910/" },
-    { title:"Dark Souls Remastered",              img:S(570940),  link:"https://store.steampowered.com/app/570940/" },
-    { title:"Devil May Cry 5",                    img:S(601150),  link:"https://store.steampowered.com/app/601150/" },
-    { title:"Beyond: Two Souls",                  img:S(960990),  link:"https://store.steampowered.com/app/960990/" },
-    { title:"Call of Duty: Modern Warfare 2",     img:S(10180),   link:"https://store.steampowered.com/app/10180/" },
-    { title:"Call of Duty: Modern Warfare 3",     img:S(115300),  link:"https://store.steampowered.com/app/115300/" },
-    { title:"Batman: Arkham City",                img:S(200260),  link:"https://store.steampowered.com/app/200260/" },
-    { title:"Assetto Corsa",                      img:S(244210),  link:"https://store.steampowered.com/app/244210/" },
-    { title:"Resident Evil 4",                    img:S(254700),  link:"https://store.steampowered.com/app/254700/" },
-    { title:"Resident Evil 5",                    img:S(21690),   link:"https://store.steampowered.com/app/21690/" },
-    { title:"Resident Evil 6",                    img:S(221040),  link:"https://store.steampowered.com/app/221040/" },
-    { title:"Assassin's Creed III",               img:S(208480),  link:"https://store.steampowered.com/app/208480/" },
-    { title:"Assassin's Creed: Brotherhood",      img:S(48190),   link:"https://store.steampowered.com/app/48190/" },
-    { title:"Assassin's Creed: Revelations",      img:S(206890),  link:"https://store.steampowered.com/app/206890/" },
-    { title:"Batman: Arkham Knight",              img:S(208650),  link:"https://store.steampowered.com/app/208650/" },
-    { title:"Batman: The Telltale Series",        img:S(455730),  link:"https://store.steampowered.com/app/455730/" },
-    { title:"Bayonetta",                          img:S(438100),  link:"https://store.steampowered.com/app/438100/" },
-    { title:"BioShock",                           img:S(409710),  link:"https://store.steampowered.com/app/409710/" },
-    { title:"BioShock 2",                         img:S(409720),  link:"https://store.steampowered.com/app/409720/" },
-    { title:"BioShock Infinite",                  img:S(8870),    link:"https://store.steampowered.com/app/8870/" },
-    { title:"Brutal Legend",                      img:S(225260),  link:"https://store.steampowered.com/app/225260/" },
-    { title:"Doom (2016)",                        img:S(379720),  link:"https://store.steampowered.com/app/379720/" },
-    { title:"Eisenhorn: Xenos",                   img:S(490850),  link:"https://store.steampowered.com/app/490850/" },
-    { title:"F.E.A.R.",                           img:S(21090),   link:"https://store.steampowered.com/app/21090/" },
-    { title:"Fallout 3",                          img:S(22300),   link:"https://store.steampowered.com/app/22300/" },
-    { title:"Fallout: New Vegas",                 img:S(22380),   link:"https://store.steampowered.com/app/22380/" },
-    { title:"Game of Thrones: A Telltale Series", img:S(330840),  link:"https://store.steampowered.com/app/330840/" },
-    { title:"Half-Life 2",                        img:S(220),     link:"https://store.steampowered.c
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/209000/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/209000/header.jpg" alt="Batman: Arkham Origins" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Batman: Arkham Origins</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Batman: Arkham Origins</div>
+          
+        </div>
+        
+      </div>
+
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/2620/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/2620/header.jpg" alt="Call of Duty 1" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Call of Duty 1</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">Call of Duty 1</div>
+          
+        </div>
+        
+      </div>
+
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/451250/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/451250/header.jpg" alt="The School: White Day" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>The School: White Day</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">The School: White Day</div>
+          
+        </div>
+        
+      </div>
+
+      <div class="game-card">
+        
+        <div class="game-img-wrap">
+          <div class="placeholder"><span>The Amazing Spider-Man (Mobile)</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">The Amazing Spider-Man (Mobile)</div>
+          
+        </div>
+        <span class="nolink-icon">N/A</span>
+      </div>
+
+      <div class="game-card">
+        
+        <div class="game-img-wrap">
+          <div class="placeholder"><span>The Amazing Spider-Man 2 (Mobile)</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">The Amazing Spider-Man 2 (Mobile)</div>
+          
+        </div>
+        <span class="nolink-icon">N/A</span>
+      </div>
+
+      <div class="game-card">
+        
+        <div class="game-img-wrap">
+          <div class="placeholder"><span>The Dark Knight Rises (Mobile)</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">The Dark Knight Rises (Mobile)</div>
+          
+        </div>
+        <span class="nolink-icon">N/A</span>
+      </div>
+
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/1551450/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1551450/header.jpg" alt="NFS: Most Wanted (2005)" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>NFS: Most Wanted (2005)</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">NFS: Most Wanted (2005)</div>
+          
+        </div>
+        
+      </div>
+
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/214230/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/214230/header.jpg" alt="NFS: Most Wanted (2012)" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>NFS: Most Wanted (2012)</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+        <div class="game-info">
+          <div class="game-title">NFS: Most Wanted (2012)</div>
+          
+        </div>
+        
+      </div>
+
+      <div class="game-card">
+        <a class="card-link" href="https://store.steampowered.com/app/12210/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="game-img-wrap">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12210/header.jpg" alt="Grand Theft Auto IV" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="placeholder" style="display:none"><span>Grand Theft Auto IV</span></div>
+          <div class="img-overlay"></div>
+          <div class="badge b-done">DONE</div>
+        </div>
+  
